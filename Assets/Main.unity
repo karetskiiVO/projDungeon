@@ -266,7 +266,7 @@ MonoBehaviour:
   - logic_tile: {fileID: 151170, guid: 4cd6f732ab47ced4b95fb604280f5184, type: 3}
     tile3d: {fileID: 197166, guid: f43ab61629c5e0b4e99fc796efebbbee, type: 3}
     scale: {x: 0, y: 0, z: 0}
-    mass: 1
+    mass: 10
     side: []
   - logic_tile: {fileID: 137868, guid: ad52eaaeb0a12aa4da789ffb8e9a0ae1, type: 3}
     tile3d: {fileID: 191238, guid: 769e2dec6944d8446b98585604b84f9a, type: 3}
@@ -302,8 +302,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iterGen: 5
   cntTile: -1
-  neitralMaterial: {fileID: 0}
-  startMaterial: {fileID: 0}
+  neitralMaterial: {fileID: 2100000, guid: d9087d7f656537d44b0d165f7e843aaa, type: 2}
+  startMaterial: {fileID: 2100000, guid: 0c84a4be429db6746bd8f6ccead282a5, type: 2}
   upd: 1
   sideLength: 0
   Holls: []

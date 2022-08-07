@@ -110,7 +110,7 @@ public class Generator : MonoBehaviour {
 				sideIndex = Mathf.RoundToInt(sideCnt * Random.value) % sideCnt;
 				for(int i = 0; i < Holls[index].side[sideIndex].Mask.Count; i++) {
 					int materialIndex = Holls[index].side[sideIndex].Mask[i];
-					if (Holls[index].logic_tile.GetComponent<Renderer>().materials[materialIndex] == mat) {
+					if (Holls[index].logic_tile.GetComponent<Renderer>().sharedMaterials[materialIndex] == mat) {
 						posit.Add(i);
                     }
                 }
@@ -150,30 +150,33 @@ public class Generator : MonoBehaviour {
                 }
 				for(int i = 0; i < Holls[index].side.Count; i++) {
 					for(int j = 0; j < Holls[index].side[i].Mask.Count; j++) {
-						if((i == sideIndex) && (j == prohIndex)) {
-							continue;
-                        }
-						int materialInd = Holls[index].side[i].Mask[j];
-						Material bufMaterial = Holls[index].logic_tile.GetComponent<Renderer>().materials[materialInd];
-						if (bufMaterial == neitralMaterial) {
-							continue;
-                        }
-						int h0, w0;
-						h0 = positIndex % Mathf.RoundToInt(Holls[index].side[sideIndex].width);
-						w0 = (positIndex - h0) / Mathf.RoundToInt(Holls[index].side[sideIndex].width);
-						Vector3 posOut = (0.5f + h0) * sideLength * Vector3.up + (0.5f + w0) * sideLength * Holls[index].side[sideIndex].ort + buf.transform.position;
-						Vector3 dirOut = (tr * Holls[index].side[sideIndex].normal).normalized;
-						usl &= Gen(mas, posOut, dirOut, bufMaterial); 
+						if ((i == sideIndex) && (j == prohIndex)) {
+						} else {
+							int materialInd = Holls[index].side[i].Mask[j];
+							Material bufMaterial = Holls[index].logic_tile.GetComponent<Renderer>().sharedMaterials[materialInd];
+							if (bufMaterial == neitralMaterial) {
+							} else {
+								int h0, w0;
+								h0 = positIndex % Mathf.RoundToInt(Holls[index].side[sideIndex].width);
+								w0 = (positIndex - h0) / Mathf.RoundToInt(Holls[index].side[sideIndex].width);
+								Vector3 posOut = (0.5f + h0) * sideLength * Vector3.up + (0.5f + w0) * sideLength * Holls[index].side[sideIndex].ort + buf.transform.position;
+								Vector3 dirOut = (tr * Holls[index].side[sideIndex].normal).normalized;
+								usl &= Gen(mas, posOut, dirOut, bufMaterial);
+							}
+						}
                     }
                 }
                 if (usl) {
+					GameObject buf1 = Instantiate(Holls[index].tile3d);
+					buf1.transform.rotation = buf.transform.rotation;
+					buf1.transform.position = buf.transform.position;
 					Destroy(buf);
-					Instantiate(Holls[index].tile3d);
 					cntTile++;
 					break;
                 }
 			}
             if (!usl) {
+				Destroy(buf);
 				return usl;
             }
 		}
