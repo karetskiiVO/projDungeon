@@ -60,7 +60,7 @@ public class AdderNew: MonoBehaviour {
 		Vector3 bufVect = new Vector3(100, 0, 0) * ort1.x;
 		Vector3 tileCenter = tileBuf.logic_tile.GetComponent<Renderer>().bounds.center;
 
-		meshBuf.ort = ort1;
+		meshBuf.ort = ort1.normalized;
 
 		for (int i = 0; i < meshBuf.vertMesh.Count; i++) {
 			if (meshBuf.vertMesh[i].x / ort1.x > bufVect.x / ort1.x) {
