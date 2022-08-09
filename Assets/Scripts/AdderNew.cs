@@ -18,7 +18,7 @@ public class AdderNew: MonoBehaviour {
 		public float width;
 		public float distanseToCenter;
 
-		public List<int> Mask = new List<int>();
+		public int[,] Mask;
 		public int bPointIndex;
 
 		public Vector3 normal;
@@ -89,6 +89,8 @@ public class AdderNew: MonoBehaviour {
 
 		var meshCollider = tileBuf.logic_tile.GetComponent<MeshCollider>();
 
+		meshBuf.Mask = new int[Mathf.RoundToInt(meshBuf.width), Mathf.RoundToInt(meshBuf.height)];
+
 		for (int i = 0; i < meshBuf.height; i++) {
 			for (int j = 0; j < meshBuf.width; j++) {
 
@@ -126,7 +128,7 @@ public class AdderNew: MonoBehaviour {
 				//Debug.Log(materialInd);
 				//Debug.Log(tileBuf.logic_tile.GetComponent<Renderer>().materials[materialInd]);
 
-				meshBuf.Mask.Add(materialInd);
+				meshBuf.Mask[i, j] = materialInd;
 			}
 		}
 
