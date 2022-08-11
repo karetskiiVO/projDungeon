@@ -93,8 +93,8 @@ public class Generator : MonoBehaviour {
 			return;
         }
 
-		for(int i = 0; i < Holls[tileInd].side.Count; i++) {
-			for(int h = 0; h < Mathf.RoundToInt(Holls[tileInd].side[i].height); h++) {
+		for (int i = 0; i < Holls[tileInd].side.Count; i++) {
+			for (int h = 0; h < Mathf.RoundToInt(Holls[tileInd].side[i].height); h++) {
 				for (int w = 0; w < Mathf.RoundToInt(Holls[tileInd].side[i].width); w++) {
 					Vector3 posOut = ((float)h0 + 0.5f) * sideLength * Vector3.up + ((float)w0 + 0.5f) * sideLength * (tr * Holls[tileInd].side[i].ort) + tr * Holls[tileInd].side[i].zeroVert + buf.transform.position/*+ tr * Holls[tileInd].side[i].normal*/;
 					Vector3 dirOut = tr * Holls[tileInd].side[i].normal;
@@ -106,7 +106,7 @@ public class Generator : MonoBehaviour {
 					Gen(mas, posOut, dirOut, matOut);
 				}
 			}
-        }
+		}
 		/*if (mat == null) {
 			Destroy(buf);
 		}*/
