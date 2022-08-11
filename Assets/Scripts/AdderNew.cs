@@ -23,7 +23,7 @@ public class AdderNew: MonoBehaviour {
 
 		public Vector3 normal;
 		public Vector3 ort;
-		public Vector3 distanseToCenterPoint;
+		public Vector3 zeroVert;
 		public List<Vector3> vertMesh = new List<Vector3>();
 	}
 
@@ -57,17 +57,38 @@ public class AdderNew: MonoBehaviour {
 		GameObject inst = Instantiate(tileBuf.logic_tile);
 
 		Vector3 ort1 = vectProd(meshBuf.normal, Vector3.up);
-		Vector3 bufVect = new Vector3(100, 0, 0) * ort1.x;
+
+		///найти нулевую вершину
+
+		Vector3 bufVect = new Vector3();
 		Vector3 tileCenter = tileBuf.logic_tile.GetComponent<Renderer>().bounds.center;
 
-		meshBuf.ort = ort1.normalized;
+		ort1 = ort1.normalized;
+		meshBuf.ort = ort1;
 
 		for (int i = 0; i < meshBuf.vertMesh.Count; i++) {
-			if (meshBuf.vertMesh[i].x / ort1.x > bufVect.x / ort1.x) {
+			if(i == 0) {
 				bufVect = meshBuf.vertMesh[i];
 				meshBuf.bPointIndex = i;
+				continue;
+			}
+			Vector3 bufDir = meshBuf.vertMesh[i] - bufVect;
+			float prod = bufVect.x * bufDir.x + bufVect.y * bufDir.y + bufVect.z * bufDir.z;
+			if (Mathf.Abs(prod) < 0.01f) {
+				if(meshBuf.vertMesh[i].y < bufVect.y) {
+					bufVect = meshBuf.vertMesh[i];
+					meshBuf.bPointIndex = i;
+					continue;
+				}
+            }
+			if(prod < 0) {
+				bufVect = meshBuf.vertMesh[i];
+				meshBuf.bPointIndex = i;
+				continue;
 			}
 		}
+
+		meshBuf.zeroVert = bufVect;
 
 		float distBuf = 0f;
 
@@ -232,7 +253,7 @@ public class AdderNew: MonoBehaviour {
 				if ((tileBuf.side[j].normal - norm).magnitude <= 0.001f) {
 					f = false;
 					sideCount = j;
-
+					
 				}
 			}
 
@@ -242,7 +263,6 @@ public class AdderNew: MonoBehaviour {
 				tileBuf.side[sideCount].normal = norm;
 				//Debug.Log(tileBuf.side[sideCount].normal);
 				tileBuf.side[sideCount].distanseToCenter = Mathf.Abs((norm.x * tileCenter.x + norm.y * tileCenter.y + tileCenter.z * p0.z) - (norm.x * p0.x + norm.y * p0.y + norm.z * p0.z));
-				tileBuf.side[sideCount].distanseToCenterPoint = tileBuf.side[tileBuf.side.Count - 1].distanseToCenter * norm + tileCenter;
 			}
 
 			for (int j = 0; j < tileBuf.side[sideCount].vertMesh.Count; j++) {

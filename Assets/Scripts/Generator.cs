@@ -26,7 +26,7 @@ public class Generator : MonoBehaviour {
 
 		public Vector3 normal;
 		public Vector3 ort;
-		public Vector3 distanseToCenterPoint;
+		public Vector3 zeroVert;
 		public List<Vector3> vertMesh = new List<Vector3>();
 	}
 
@@ -60,7 +60,7 @@ public class Generator : MonoBehaviour {
 					Holls[i].side[j].width = AdderNew.instance.Holls[i].side[j].width;
                     Holls[i].side[j].Mask = AdderNew.instance.Holls[i].side[j].Mask;
                     Holls[i].side[j].distanseToCenter = AdderNew.instance.Holls[i].side[j].distanseToCenter;
-					Holls[i].side[j].distanseToCenterPoint = AdderNew.instance.Holls[i].side[j].distanseToCenterPoint * Holls[i].scale.x;
+					Holls[i].side[j].zeroVert = AdderNew.instance.Holls[i].side[j].zeroVert * Holls[i].scale.x;
                     Holls[i].side[j].vertMesh = AdderNew.instance.Holls[i].side[j].vertMesh;
 					Holls[i].side[j].ort = AdderNew.instance.Holls[i].side[j].ort;
 				}
@@ -68,7 +68,7 @@ public class Generator : MonoBehaviour {
 			}
         }
 
-		Gen(massDung, Vector3.up * 0.5f * sideLength, Vector3.forward, null);
+		Gen(massDung, Vector3.up * sideLength, Vector3.forward, null);
 	}
 
 	void Gen(List<int> mas, Vector3 pos, Vector3 dir, Material mat) {
@@ -82,21 +82,21 @@ public class Generator : MonoBehaviour {
 		float ang = Vector3.Angle(dir, Holls[tileInd].side[sideInd].normal);
 
 		Quaternion tr = Quaternion.AngleAxis(ang, Vector3.up);
-		if((dir + tr * Holls[tileInd].side[sideInd].normal).magnitude > 0.001f) {
+		if((dir + (tr * Holls[tileInd].side[sideInd].normal).normalized).magnitude > 0.001f) {
 			tr = Quaternion.AngleAxis(ang + 180f, Vector3.up);
 		}
 		
 		buf.transform.rotation = tr;
-		buf.transform.position = pos - ((h0 + 0.5f) * sideLength * Vector3.up + (w0 + 0.5f) * sideLength * Holls[tileInd].side[sideInd].ort + Holls[tileInd].side[sideInd].distanseToCenterPoint);
+		buf.transform.position = pos - ((h0 + 0.5f) * sideLength * Vector3.up + (w0 + 0.5f) * sideLength * (tr * Holls[tileInd].side[sideInd].ort) + (tr * Holls[tileInd].side[sideInd].zeroVert));
 
 		if(mat != null) {
 			return;
         }
 
 		for(int i = 0; i < Holls[tileInd].side.Count; i++) {
-			for(int h = 0; h < Holls[tileInd].side[i].height; h++) {
-				for (int w = 0; w < Holls[tileInd].side[i].width; w++) {
-					Vector3 posOut = (h0 + 0.5f) * sideLength * Vector3.up + (w0 + 0.5f) * sideLength * Holls[tileInd].side[i].ort + Holls[tileInd].side[i].distanseToCenterPoint;
+			for(int h = 0; h < Mathf.RoundToInt(Holls[tileInd].side[i].height); h++) {
+				for (int w = 0; w < Mathf.RoundToInt(Holls[tileInd].side[i].width); w++) {
+					Vector3 posOut = ((float)h0 + 0.5f) * sideLength * Vector3.up + ((float)w0 + 0.5f) * sideLength * (tr * Holls[tileInd].side[i].ort) + tr * Holls[tileInd].side[i].zeroVert + buf.transform.position/*+ tr * Holls[tileInd].side[i].normal*/;
 					Vector3 dirOut = tr * Holls[tileInd].side[i].normal;
 
 					int matInd = Holls[tileInd].side[i].Mask[h, w];
@@ -107,9 +107,9 @@ public class Generator : MonoBehaviour {
 				}
 			}
         }
-		if (mat == null) {
+		/*if (mat == null) {
 			Destroy(buf);
-		}
+		}*/
 	}
 	
 
