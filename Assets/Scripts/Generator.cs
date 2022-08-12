@@ -121,6 +121,9 @@ public class Generator : MonoBehaviour {
 		for (int i = 0; i < Holls[tileInd].side.Count; i++) {
 			for (int h = 0; h < Mathf.RoundToInt(Holls[tileInd].side[i].height); h++) {
 				for (int w = 0; w < Mathf.RoundToInt(Holls[tileInd].side[i].width); w++) {
+					if((h == h0)&&(w == w0)&&(i == sideInd)&&(mat != null)) {
+						continue;
+                    }
 					Vector3 posOut = ((float)h + 0.5f) * sideLength * Vector3.up + ((float)w + 0.5f) * sideLength * (tr * Holls[tileInd].side[i].ort) + tr * Holls[tileInd].side[i].zeroVert + buf.transform.position/*+ tr * Holls[tileInd].side[i].normal*/;
 					Vector3 dirOut = tr * Holls[tileInd].side[i].normal;
 
