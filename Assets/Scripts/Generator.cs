@@ -39,6 +39,28 @@ public class Generator : MonoBehaviour {
 		public List<meshSide> side = new List<meshSide>();
 	}
 
+	class genDung {
+		public List<GameObject> obj = new List<GameObject> ();
+		public bool isPossible = true;
+
+		public void mergeObj(genDung addition) {
+			isPossible &= addition.isPossible;
+			for(int i = 0; i < addition.obj.Count; i++) {
+				obj.Add(addition.obj[i]);
+            }
+        }
+
+		public void addObj(GameObject addition) {
+			obj.Add(addition);
+		}
+
+		public void clearObj() {
+			for (int i = 0; i < obj.Count; i++) {
+				Destroy(obj[i]);
+			}
+		}
+    }
+
 	public List<tile> Holls = new List<tile>();
 	public List<int> massDung = new List<int>();
 
@@ -71,7 +93,7 @@ public class Generator : MonoBehaviour {
 		Gen(massDung, Vector3.up * sideLength, Vector3.forward, null);
 	}
 
-	void Gen(List<int> mas, Vector3 pos, Vector3 dir, Material mat) {
+	genDung Gen(List<int> mas, Vector3 pos, Vector3 dir, Material mat) {
 		int tileInd = Mathf.RoundToInt(Random.value * Holls.Count) % Holls.Count;
 		int sideInd = Mathf.RoundToInt(Random.value * Holls[tileInd].side.Count) % Holls[tileInd].side.Count;
 		int h0 = Mathf.RoundToInt(Random.value * Holls[tileInd].side[sideInd].height) % Mathf.RoundToInt(Holls[tileInd].side[sideInd].height);
@@ -80,6 +102,9 @@ public class Generator : MonoBehaviour {
 		GameObject buf = Instantiate(Holls[tileInd].logic_tile);
 
 		float ang = Vector3.Angle(dir, Holls[tileInd].side[sideInd].normal);
+
+		genDung outDung = new genDung();
+		outDung.addObj(buf);
 
 		Quaternion tr = Quaternion.AngleAxis(ang, Vector3.up);
 		if((dir + (tr * Holls[tileInd].side[sideInd].normal).normalized).magnitude > 0.001f) {
@@ -90,7 +115,7 @@ public class Generator : MonoBehaviour {
 		buf.transform.position = pos - ((h0 + 0.5f) * sideLength * Vector3.up + (w0 + 0.5f) * sideLength * (tr * Holls[tileInd].side[sideInd].ort) + (tr * Holls[tileInd].side[sideInd].zeroVert));
 
 		if(mat != null) {
-			return;
+			return outDung;
         }
 
 		for (int i = 0; i < Holls[tileInd].side.Count; i++) {
@@ -107,10 +132,7 @@ public class Generator : MonoBehaviour {
 				}
 			}
 		}
-		/*if (mat == null) {
-			Destroy(buf);
-		}*/
+		return outDung;
 	}
 	
-
 }
