@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System;
 
 
 public class Generator : MonoBehaviour {
@@ -11,7 +10,7 @@ public class Generator : MonoBehaviour {
 
 	public Material neitralMaterial;
 	public Material startMaterial;
-	System.Random rnd = new System.Random();
+
 	public bool upd;
 	
 	public float sideLength;
@@ -73,33 +72,31 @@ public class Generator : MonoBehaviour {
 	}
 
 	void Gen(List<int> mas, Vector3 pos, Vector3 dir, Material mat) {
-		int tileInd = rnd.Next(Holls.Count);
-		int sideInd = rnd.Next(Holls[tileInd].side.Count);
-		int h0 = Mathf.RoundToInt(UnityEngine.Random.value * Holls[tileInd].side[sideInd].height) % Mathf.RoundToInt(Holls[tileInd].side[sideInd].height);
-		int w0 = Mathf.RoundToInt(UnityEngine.Random.value * Holls[tileInd].side[sideInd].width) % Mathf.RoundToInt(Holls[tileInd].side[sideInd].width);
+		int tileInd = Mathf.RoundToInt(Random.value * Holls.Count) % Holls.Count;
+		int sideInd = Mathf.RoundToInt(Random.value * Holls[tileInd].side.Count) % Holls[tileInd].side.Count;
+		int h0 = Mathf.RoundToInt(Random.value * Holls[tileInd].side[sideInd].height) % Mathf.RoundToInt(Holls[tileInd].side[sideInd].height);
+		int w0 = Mathf.RoundToInt(Random.value * Holls[tileInd].side[sideInd].width) % Mathf.RoundToInt(Holls[tileInd].side[sideInd].width);
 
 		GameObject buf = Instantiate(Holls[tileInd].logic_tile);
 
 		float ang = Vector3.Angle(dir, Holls[tileInd].side[sideInd].normal);
 
 		Quaternion tr = Quaternion.AngleAxis(ang, Vector3.up);
-		
-		if ((dir + (tr * Holls[tileInd].side[sideInd].normal).normalized).magnitude > 0.001f) {
+		if((dir + (tr * Holls[tileInd].side[sideInd].normal).normalized).magnitude > 0.001f) {
 			tr = Quaternion.AngleAxis(ang + 180f, Vector3.up);
 		}
-
+		
 		buf.transform.rotation = tr;
 		buf.transform.position = pos - ((h0 + 0.5f) * sideLength * Vector3.up + (w0 + 0.5f) * sideLength * (tr * Holls[tileInd].side[sideInd].ort) + (tr * Holls[tileInd].side[sideInd].zeroVert));
-		//buf.transform.position = pos + dir * sideLength * 0.5f;
-		if (mat != null) {
+
+		if(mat != null) {
 			return;
         }
 
 		for (int i = 0; i < Holls[tileInd].side.Count; i++) {
 			for (int h = 0; h < Mathf.RoundToInt(Holls[tileInd].side[i].height); h++) {
 				for (int w = 0; w < Mathf.RoundToInt(Holls[tileInd].side[i].width); w++) {
-					Vector3 posOut = tr * Holls[tileInd].side[i].zeroVert + buf.transform.position + ((float)h + 0.5f) * sideLength * Vector3.up + ((float)w + 0.5f) * sideLength * (tr * Holls[tileInd].side[i].ort);
-					//Vector3 posOut = buf.transform.position + tr * Holls[tileInd].side[i].normal*sideLength*0.5f;
+					Vector3 posOut = ((float)h0 + 0.5f) * sideLength * Vector3.up + ((float)w0 + 0.5f) * sideLength * (tr * Holls[tileInd].side[i].ort) + tr * Holls[tileInd].side[i].zeroVert + buf.transform.position/*+ tr * Holls[tileInd].side[i].normal*/;
 					Vector3 dirOut = tr * Holls[tileInd].side[i].normal;
 
 					int matInd = Holls[tileInd].side[i].Mask[h, w];

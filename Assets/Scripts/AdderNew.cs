@@ -73,7 +73,7 @@ public class AdderNew: MonoBehaviour {
 				continue;
 			}
 			Vector3 bufDir = meshBuf.vertMesh[i] - bufVect;
-			float prod = meshBuf.ort.x * bufDir.x + meshBuf.ort.y * bufDir.y + meshBuf.ort.z * bufDir.z;
+			float prod = bufVect.x * bufDir.x + bufVect.y * bufDir.y + bufVect.z * bufDir.z;
 			if (Mathf.Abs(prod) < 0.01f) {
 				if(meshBuf.vertMesh[i].y < bufVect.y) {
 					bufVect = meshBuf.vertMesh[i];
