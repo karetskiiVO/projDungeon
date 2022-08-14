@@ -145,8 +145,8 @@ public class AdderNew: MonoBehaviour {
 					}	
                 }
 
-
-				Debug.Log(tileBuf.logic_tile.GetComponent<Renderer>().sharedMaterials[materialInd]);
+				Debug.Log(materialInd);
+				//Debug.Log(tileBuf.logic_tile.GetComponent<Renderer>().sharedMaterials[materialInd]);
 				meshBuf.Mask[i].Add(tileBuf.logic_tile.GetComponent<Renderer>().sharedMaterials[materialInd]);
 			}
 		}
