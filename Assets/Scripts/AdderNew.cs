@@ -18,7 +18,7 @@ public class AdderNew: MonoBehaviour {
 		public float width;
 		public float distanseToCenter;
 
-		public int[,] Mask;
+		public List<List<Material>> Mask = new List<List<Material>>();
 		public int bPointIndex;
 
 		public Vector3 normal;
@@ -110,9 +110,8 @@ public class AdderNew: MonoBehaviour {
 
 		var meshCollider = tileBuf.logic_tile.GetComponent<MeshCollider>();
 
-		meshBuf.Mask = new int[Mathf.RoundToInt(meshBuf.width), Mathf.RoundToInt(meshBuf.height)];
-
 		for (int i = 0; i < meshBuf.height; i++) {
+			meshBuf.Mask.Add(new List<Material>());
 			for (int j = 0; j < meshBuf.width; j++) {
 
 				Vector3 start = tileCenter + meshBuf.vertMesh[meshBuf.bPointIndex] + (float)i * Vector3.up * SideLength + ((float)j) * ort1 * SideLength + 1.5f * meshBuf.normal;
@@ -141,15 +140,14 @@ public class AdderNew: MonoBehaviour {
 							break;
                         }
                     }
-					if (materialInd != -1)
+					if (materialInd != -1) {
 						break;
+					}	
                 }
 
-				//Debug.Log(index);
-				//Debug.Log(materialInd);
-				//Debug.Log(tileBuf.logic_tile.GetComponent<Renderer>().materials[materialInd]);
 
-				meshBuf.Mask[i, j] = materialInd;
+				Debug.Log(tileBuf.logic_tile.GetComponent<Renderer>().sharedMaterials[materialInd]);
+				meshBuf.Mask[i].Add(tileBuf.logic_tile.GetComponent<Renderer>().sharedMaterials[materialInd]);
 			}
 		}
 

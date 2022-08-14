@@ -21,7 +21,7 @@ public class Generator : MonoBehaviour {
 		public float width;
 		public float distanseToCenter;
 
-		public int[,] Mask;
+		public List<List<Material>> Mask = new List<List<Material>>();
 		public int bPointIndex;
 
 		public Vector3 normal;
@@ -89,11 +89,17 @@ public class Generator : MonoBehaviour {
 				massDung.Add(Holls[i].mass);
 			}
         }
-
 		Gen(massDung, Vector3.up * sideLength, Vector3.forward, null);
 	}
 
 	genDung Gen(List<int> mas, Vector3 pos, Vector3 dir, Material mat) {
+
+		genDung outDung = new genDung();
+
+		if (mat == neitralMaterial) {
+			return outDung;
+        }
+
 		int tileInd = Mathf.RoundToInt(Random.value * Holls.Count) % Holls.Count;
 		int sideInd = Mathf.RoundToInt(Random.value * Holls[tileInd].side.Count) % Holls[tileInd].side.Count;
 		int h0 = Mathf.RoundToInt(Random.value * Holls[tileInd].side[sideInd].height) % Mathf.RoundToInt(Holls[tileInd].side[sideInd].height);
@@ -103,7 +109,6 @@ public class Generator : MonoBehaviour {
 
 		float ang = Vector3.Angle(dir, Holls[tileInd].side[sideInd].normal);
 
-		genDung outDung = new genDung();
 		outDung.addObj(buf);
 
 		Quaternion tr = Quaternion.AngleAxis(ang, Vector3.up);
@@ -124,14 +129,13 @@ public class Generator : MonoBehaviour {
 					if((h == h0)&&(w == w0)&&(i == sideInd)&&(mat != null)) {
 						continue;
                     }
+					Material matOut = Holls[tileInd].side[i].Mask[h][w]; 
 					Vector3 posOut = ((float)h + 0.5f) * sideLength * Vector3.up + ((float)w + 0.5f) * sideLength * (tr * Holls[tileInd].side[i].ort) + tr * Holls[tileInd].side[i].zeroVert + buf.transform.position/*+ tr * Holls[tileInd].side[i].normal*/;
 					Vector3 dirOut = tr * Holls[tileInd].side[i].normal;
 
-					int matInd = Holls[tileInd].side[i].Mask[h, w];
-
-					Material matOut = Holls[tileInd].logic_tile.GetComponent<Renderer>().sharedMaterials[matInd];
-
+					
 					Gen(mas, posOut, dirOut, matOut);
+
 				}
 			}
 		}
