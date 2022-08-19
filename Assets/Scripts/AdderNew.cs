@@ -114,7 +114,7 @@ public class AdderNew: MonoBehaviour {
 			meshBuf.Mask.Add(new List<Material>());
 			for (int j = 0; j < meshBuf.width; j++) {
 
-				Vector3 start = tileCenter + meshBuf.vertMesh[meshBuf.bPointIndex] + (float)i * Vector3.up * SideLength + ((float)j) * ort1 * SideLength + 1.5f * meshBuf.normal;
+				Vector3 start = meshBuf.zeroVert + ((float)i + 0.5f) * Vector3.up * SideLength + ((float)j + 0.5f) * ort1 * SideLength + 1.5f * meshBuf.normal;
 
 				//debDrowPoint(start);
 
@@ -145,8 +145,10 @@ public class AdderNew: MonoBehaviour {
 					}	
                 }
 
-				Debug.Log(materialInd);
-				//Debug.Log(tileBuf.logic_tile.GetComponent<Renderer>().sharedMaterials[materialInd]);
+				//Debug.Log(start);
+
+				//Debug.Log(materialInd);
+				Debug.Log(tileBuf.logic_tile.GetComponent<Renderer>().sharedMaterials[materialInd]);
 				meshBuf.Mask[i].Add(tileBuf.logic_tile.GetComponent<Renderer>().sharedMaterials[materialInd]);
 			}
 		}

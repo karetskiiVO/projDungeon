@@ -227,6 +227,7 @@ GameObject:
   - component: {fileID: 902373221}
   - component: {fileID: 902373222}
   - component: {fileID: 902373223}
+  - component: {fileID: 902373224}
   m_Layer: 0
   m_Name: MainObject
   m_TagString: Untagged
@@ -308,6 +309,46 @@ MonoBehaviour:
   sideLength: 0
   Holls: []
   massDung: 
+--- !u!114 &902373224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902373220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ab55a4ce3cb2d04ea4a6555cb5a3686, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SideLength: 2
+  tileCounter: 0
+  Holls:
+  - logic_tile: {fileID: 151170, guid: 4cd6f732ab47ced4b95fb604280f5184, type: 3}
+    tile3d: {fileID: 197166, guid: f43ab61629c5e0b4e99fc796efebbbee, type: 3}
+    scale: {x: 0, y: 0, z: 0}
+    mass: 0
+    side: []
+  - logic_tile: {fileID: 137868, guid: ad52eaaeb0a12aa4da789ffb8e9a0ae1, type: 3}
+    tile3d: {fileID: 191238, guid: 769e2dec6944d8446b98585604b84f9a, type: 3}
+    scale: {x: 0, y: 0, z: 0}
+    mass: 0
+    side: []
+  - logic_tile: {fileID: 130818, guid: eda202262b3ddb541ba826bb571f7f1f, type: 3}
+    tile3d: {fileID: 123814, guid: c45ffce25d7a9df43acd41ff07005ae5, type: 3}
+    scale: {x: 0, y: 0, z: 0}
+    mass: 0
+    side: []
+  - logic_tile: {fileID: 149480, guid: f5da20ec31ae6be40aeaf84b6469aa9a, type: 3}
+    tile3d: {fileID: 152784, guid: 57288a3503c0604449fba692c2921ef9, type: 3}
+    scale: {x: 0, y: 0, z: 0}
+    mass: 0
+    side: []
+  - logic_tile: {fileID: 156768, guid: 7debbf231feca9845a5b34ed3c537b93, type: 3}
+    tile3d: {fileID: 163698, guid: ef22c51e0da86d04d8885983ec64f4c4, type: 3}
+    scale: {x: 0, y: 0, z: 0}
+    mass: 0
+    side: []
 --- !u!1 &1483632619
 GameObject:
   m_ObjectHideFlags: 0

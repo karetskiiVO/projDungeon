@@ -64,7 +64,7 @@ public class Generator : MonoBehaviour {
 	public List<tile> Holls = new List<tile>();
 	public List<int> massDung = new List<int>();
 
-	void Start () {
+	/*void Start () {
 		sideLength = AdderNew.instance.SideLength;
 
 		if (upd) {
@@ -90,8 +90,8 @@ public class Generator : MonoBehaviour {
 			}
         }
 		Gen(massDung, Vector3.up * sideLength, Vector3.forward, null);
-	}
-
+	}*/
+	
 	genDung Gen(List<int> mas, Vector3 pos, Vector3 dir, Material mat) {
 
 		genDung outDung = new genDung();
