@@ -131,9 +131,10 @@ public class AdderNew: MonoBehaviour {
 				Mesh mesh = meshCollider.sharedMesh;
 				int materialInd = -1;
 				int index = hit.triangleIndex;
+				
 
 				for (int t = 0; t < mesh.subMeshCount; t++) {
-					var bufTriangles = mesh.GetTriangles(t); 
+					var bufTriangles = mesh.GetTriangles(t);
 					for(int k = 0; k < bufTriangles.Length; k++) {
 						if(index == bufTriangles[k]) {
 							materialInd = t;
